@@ -24,6 +24,7 @@ def api_leds_control(color):
     print("Echipa fantastica se lumineaza - post")
     if request.method == "POST":
         if color in LEDS:
+	    print("LEDScolor = " ,LEDS[color])
             GPIO.output(LEDS[color], int(request.data.get("state")))
     return {color: GPIO.input(LEDS[color])}
 
