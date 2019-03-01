@@ -1,19 +1,15 @@
 #!/usr/bin/python
 
-from flask import request
+from flask import Flask, request, render_template 
 from flask_api import FlaskAPI
-import RPi.GPIO as GPIO
 
-LEDS = {"green": 16, "red": 18}
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(LEDS["green"], GPIO.OUT)
-GPIO.setup(LEDS["red"], GPIO.OUT)
+status='green'
 
 app = FlaskAPI(__name__)
 
 @app.route('/', methods=["GET"])
 def api_root():
-    print("Echipa fantastica se lumineaza - get")
+    print("TV - get")
     return {
            "led_url": request.url + "led/(green | red)/",
       		 "led_url_POST": {"state": "(0 | 1)"}
@@ -21,12 +17,15 @@ def api_root():
   
 @app.route('/led/<color>/', methods=["GET", "POST"])
 def api_leds_control(color):
-    print("Echipa fantastica se lumineaza - post")
+    print("TV- post")
     if request.method == "POST":
-        if color in LEDS:
-	    print("LEDScolor = " ,LEDS[color])
-            GPIO.output(LEDS[color], int(request.data.get("state")))
-    return {color: GPIO.input(LEDS[color])}
+            status = color     
+    return color
+
+@app.route('/hello')
+def hello():
+    print('hello', status)
+    return render_template('hello.html',statusHtml = status)
 
 if __name__ == "__main__":
     app.run()
