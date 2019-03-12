@@ -1,10 +1,32 @@
 <!doctype html>
 <html>
+<head>
+ <meta http-equiv="refresh" content="40">
+</head>
+<style>
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+html,body{
+   margin:0;
+   height:100%;
+}
+img{
+ display:block;
+ width:99%; height:99%;
+ object-fit: cover;
+ border: 5px ridge green;
+}
+
+</style>
    <body>
      {% if statusHtml == 'green' %}
-     <h1> I am  green </h1>
+     <img src="{{url_for('static', filename='index.jpg')}}"/>
      {% else %}
-     <h1> I am  red </h1>
+     <img src="{{url_for('static', filename='build_failed.jpg')}}" class="center" />
      {% endif %}
    </body>
 </html>
